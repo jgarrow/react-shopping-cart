@@ -20,9 +20,29 @@ function App() {
         setCart([...cart, item]);
     };
 
+    const removeItem = title => {
+        let userCart = [...cart];
+
+        // don't need the variable, just need what it's doing in the .find callback
+        let isItemInCart = userCart.find((product, index) => {
+            if (product.title === title) {
+                if (userCart.length <= 1) {
+                    userCart = [];
+                } else {
+                    userCart.splice(1, index);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        setCart(userCart);
+    };
+
     return (
         <ProductContext.Provider value={{ products, addItem }}>
-            <CartContext.Provider value={cart}>
+            <CartContext.Provider value={{ cart, removeItem }}>
                 <div className="App">
                     <Navigation />
                     {/* Routes */}
